@@ -19,8 +19,8 @@
 **Objetivo.** Explorar como a distribuição de quatro classes em 2D influencia a complexidade das fronteiras de decisão que uma rede neural precisaria aprender.
 
 ### Parâmetros utilizados
-**Médias (μx, μy):** (2,3), (5,6), (8,1), (15,4) 
-**Desvios (σx, σy):** (0,8; 2,5), (1,2; 1,9), (0,9; 0,9), (0,5; 2,0) 
+- **Médias (μx, μy):** (2,3), (5,6), (8,1), (15,4)
+- **Desvios (σx, σy):** (0,8; 2,5), (1,2; 1,9), (0,9; 0,9), (0,5; 2,0) 
 
 ### Visualização   
 ![Fronteiras desenhadas manualmente](Ex1.png)
@@ -189,10 +189,7 @@ plt.show()
 - **Alvo:** `Transported` — indica se o passageiro foi transportado para outra dimensão (binário).  
 - **Numéricas:** `Age`, `RoomService`, `FoodCourt`, `ShoppingMall`, `Spa`, `VRDeck`, `CabinNum`, `Group`, `PaxInGroup`, `TotalSpend`.  
 - **Categóricas:** `HomePlanet`, `CryoSleep`, `Destination`, `VIP`, `CabinDeck`, `CabinSide`.  
-- **Engenharia aplicada:**  
-  - `Cabin` decomposta em `CabinDeck`, `CabinNum`, `CabinSide`;  
-  - `PassengerId` decomposto em `Group`, `PaxInGroup`;  
-  - `Transported` convertido para 0/1.
+- **Engenharia aplicada:** A feature `Cabin` foi decomposta em `CabinDeck`, `CabinNum` e `CabinSide`;  `PassengerId` foi decomposto em `Group` e `PaxInGroup`; `Transported` foi convertido para 0/1.
 
 ### Faltantes
 
