@@ -18,20 +18,19 @@
 
 **Objetivo.** Explorar como a distribuição de quatro classes em 2D influencia a complexidade das fronteiras de decisão que uma rede neural precisaria aprender.
 
-**Parâmetros utilizados (por classe).**  
-Médias (μx, μy): **(2,3)**, **(5,6)**, **(8,1)**, **(15,4)**  
-Desvios (σx, σy): **(0,8; 2,5)**, **(1,2; 1,9)**, **(0,9; 0,9)**, **(0,5; 2,0)**  
-*Observação:* desvios por eixo ⇒ **elipses alinhadas aos eixos** (covariância diagonal, sem rotação).
+### Parâmetros utilizados
+**Médias (μx, μy):** (2,3), (5,6), (8,1), (15,4) 
+**Desvios (σx, σy):** (0,8; 2,5), (1,2; 1,9), (0,9; 0,9), (0,5; 2,0) 
 
-**Visualização.**   
+### Visualização   
 ![Fronteiras desenhadas manualmente](Ex1.png)
 
-**Análise e respostas.**
+### Análise e respostas
 - **Distribuição e overlap:** Classes 0 e 1 apresentam sobreposição considerável enquanto as classes 1 e 2 apresentam leve sobreposição; a Classe 3 está deslocada à direita sem nenhuma sobreposição.  
 - **Uma fronteira linear simples separa tudo?** Não. Com uma única fronteira linear não é possível separar todas as classes corretamente.  
 - **“Sketch” das fronteiras que a rede aprenderia:** Para separar de maneira eficiente todas as classes seriam necessárias pelo menos 3 fronteiras lineares.
 
-**Código**
+### Código
 ```python
 import numpy as np
 import matplotlib.pyplot as plt
@@ -102,20 +101,20 @@ plt.show()
 
 ## Exercício 2 — Não-linearidade em 5D + PCA (5D → 2D)
 
-**Objetivo.** Criar dois grupos 5D com médias/covariâncias especificadas e visualizar em 2D via **PCA**.
+**Objetivo.** Criar dois grupos 5D com médias/covariâncias especificadas e visualizar em 2D via PCA.
 
-**Configuração.**  
+### Configuração
 - **Classe A:** vetor de média nulo; covariâncias positivas entre algumas dimensões.  
 - **Classe B:** vetor de média transladado (1,5 em todas as componentes); covariâncias com sinais distintos, alterando forma e orientação do grupo.
 
-**Visualização.**  
+### Visualização  
 ![PCA 2D](Ex2.png)
 
-**Análise e respostas.**
+### Análise e respostas
 - **Relação entre as classes (projeção 2D):** Observa-se mistura parcial, embora possa se identificar certa separação entre as nuvens.  
 - **Separabilidade linear:** Embora possa ser observado uma distribuição com certa separação na projeção 2d dos dados, uma separação linear seria muito ineficiente para o caso proposto. Por haverem múltiplas dimensões nos dados a separabilidade linear tenderia a perder muita informação, por não haver um hiperplano perfeito capaz de separar as duas classes.
 
-**Código**
+### Código
 ```python
 import numpy as np
 import matplotlib.pyplot as plt
@@ -214,7 +213,7 @@ plt.show()
 **Depois da transformação** 
 ![Depois — Age e FoodCourt](Ex32.png)
 
-**Código**
+### Código
 
 ```python
 #Imports e leitura
