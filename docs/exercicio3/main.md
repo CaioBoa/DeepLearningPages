@@ -442,13 +442,8 @@ def plot_classification_data(X: np.ndarray, y: np.ndarray, title: str = "Synthet
 
 ![Distribuição dos Dados](Ex10.png)
 
-### Parâmetros
-  - Entrada: `input_dim = 2`;   
-  - Saída: `output_dim = 2`;     
-  - Épocas: 500;
-
 ### Resultados
-Foram realizados testes com **1 camada oculta de profundidade 1**, **1 camada oculta de profundidade 16** e **2 camadas ocultas de profundidade 16**.
+Foram realizados testes com **1 camada oculta de profundidade 1**, **1 camada oculta de profundidade 16** e **2 camadas ocultas de profundidade 16** para 500 épocas.
 
 - **Train Loss:** 0.4671, 0.4634, 0.2879  
 - **Train Accuracy:** 0.7750, 0.7738, 0.8538  
@@ -472,15 +467,10 @@ Foram realizados testes com **1 camada oculta de profundidade 1**, **1 camada oc
 - **Amostras:** 1500  
 - **Classes:** 3  
 - **Features:** 4  
-- **Clusters por classe:** `[2, 3, 4]`  
-
-### Parâmetros 
-  - Entrada: `input_dim = 4`;  
-  - Saída: `output_dim = 3`;  
-  - Épocas: 500;  
+- **Clusters por classe:** `[2, 3, 4]`   
 
 ### Resultados
-Foram realizados testes com **1 camada oculta de profundidade 16**, **2 camada oculta de profundidade 16** e **3 camadas ocultas de profundidade 16**.
+Foram realizados testes com **1 camada oculta de profundidade 16**, **2 camada oculta de profundidade 16** e **3 camadas ocultas de profundidade 16** para 500 épocas.
 
 - **Train Loss:** 0.7644, 0.5351, 0.4725  
 - **Train Accuracy:** 0.6142, 0.7625, 0.7817  
