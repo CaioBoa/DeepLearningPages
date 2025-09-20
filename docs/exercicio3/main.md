@@ -17,23 +17,63 @@
 
 ---
 
+## Exercício 1 — Cálculo Manual de uma MLP
+
+**Descrição do modelo.**  
+MLP com **2 entradas**, **1 camada oculta (2 neurônios)** e **1 neurônio de saída**.  
+Ativações: **`tanh`** na oculta **e** na saída. **Loss:** **MSE**.
+
+### 1) Dados do problema (preencher)
+- **Entrada (vetor coluna):** x = [ 0.5 , 0,2]
+- **Saída desejada:** y = 1.0 
+- **Pesos da camada oculta** W1 = [[0.3 , -0.1][0.2, 0.4]]
+- **Vieses da camada oculta** b1 = [0.1 , -0.2]
+- **Pesos da saída** W2 = [0.5, -0.3]
+- **Viés da saída** b2 = 0.2 
+- **Taxa de aprendizado:** eta = 0.3
+
+### 2) Forward pass
+- **Pré-ativações na oculta:** z1 = W1 @ x + b1 = [0.27, -0.18]
+- **Ativações na oculta:** a1 = tanh(z1) = [0.2636, -0.1780]
+- **Pré-ativação na saída:** z2 = W2 @ a1 + b2 = 0.3852  
+- **Saída da rede:** y^ = tanh(z2) = 0.3672
+
+### 3) Loss (MSE)
+- L = (y - y^)^2 = 0.4003
+
+### 4) Backward pass
+- dl/dy^ = -2*(y - y^) = -1.2655  
+- dy^/dz2 = 1 - tanh(z2)^2 = 0.8651
+- dl/dz2 = -1.0948
+- dL/dW2 = dl/dz2 * a1^T = [-0.2886, 0.1949]
+- dL/db2 = dl/dz2 = -1.0948
+- dL/da1 = W2^T * dl/dz2 = [-0.5474, 0.3180]
+- da1/dz1 = 1 - tanh(z1)^2 = [0.9305, 0.9682]
+- dL/dz1 = (W2^T*dl/dz2) * (1 - tanh(z1)^2) = [-0.5093, 0.3180]
+- dL/dW1 = dL/dz1 * x^T = [[-0.2546, 0.1018][0.1590, -0.0636]]
+- dL/db1 = dL/dz1 = [-0.5093, 0.3180]
+
+### 5) Atualização dos parâmetros (Gradient Descent)
+- W2 = W2 - eta * dL/dW2 = [0.5865, -0.3584]
+- b2 = b2 - eta * dL/db2 = 0.5284
+- W1 = W1 - eta * dl/dW1 = [[0.3764, -0.1305][0.1522, 0.4190]]
+- b1 = b1 - eta * dL/db1 = [0.2528, -0.2954]  
+
 ## MLP
 
 **Objetivo.** Implementar uma MLP **modular** em NumPy, suportando:
 - **Entrada genérica** (`input_dim = n_features`);
 - **N camadas ocultas** (lista de larguras), **ativação `tanh`** em todas as ocultas;
-- **Camada de saída `softmax`** com `output_dim = n_classes` (funciona para **binário** com `K=2` e para **multiclasse**, `K>2`);
-- **Loss:** *categorical cross-entropy* (com one-hot);
-- **Otimização:** *Gradient Descent* puro;
-- **Histórico de treino:** *loss* e *accuracy* por época.
+- **Camada de saída `softmax`** com `output_dim = n_classes`;
+- **Loss:** *categorical cross-entropy*;
+- **Otimização:** *Gradient Descent*;.
 
 **Fluxo do treino.**  
-1. Inicialização dos parâmetros (pesos via Xavier, vieses em zero);  
-2. *Forward* (tanh nas ocultas; softmax na saída);  
-3. *Loss* (cross-entropy) e métricas;  
-4. *Backward* (gradientes por regra da cadeia, com **dZ = (P − Y)/m** na saída softmax+CE);  
-5. Atualização via *Gradient Descent*;  
-6. Registro de *loss/acc* a cada época e avaliação final no *test set*.
+1. Inicialização dos parâmetros;  
+2. *Forward*;  
+3. *Loss*;  
+4. *Backward*;  
+5. *Gradient Descent*;  
 
 ```python
 # mlp.py
@@ -345,9 +385,9 @@ def make_varying_classification(
             n_informative=n_features,
             n_redundant=0,
             n_repeated=0,
-            n_classes=2,                # make_classification exige >=2
+            n_classes=2,               
             n_clusters_per_class=clusters_per_class[c],
-            weights=[1.0, 0.0],         # força só uma classe
+            weights=[1.0, 0.0],        
             class_sep=class_sep,
             flip_y=flip_y,
             shuffle=True,
@@ -392,81 +432,72 @@ def plot_classification_data(X: np.ndarray, y: np.ndarray, title: str = "Synthet
 
 ## Exercício 2 — Classificação Binária
 
-**Objetivo.** Gerar um conjunto de dados **binário** (2 classes), com 2 *features* e **clusters assimétricos** (1 classe com 2 agrupamentos e a outra com 1 agrupamento), e treinar uma **MLP do zero** para classificá-lo.
+**Objetivo.** Treinar uma MLP em um conjunto de dados binários, com clusters assimétricos e 2 features.
 
 ### Especificação dos Dados
 - **Amostras:** 1000  
 - **Classes:** 2  
-- **Features:** 2 (para visualização 2D)  
-- **Clusters por classe:** `[2, 1]` (obtido combinando subconjuntos com `make_classification`)  
-- **Informativas:** `n_informative = n_features`  
-- **Redundantes:** `n_redundant = 0`  
-- **Separabilidade:** `class_sep ≈ 1.2` (ajustado para ser desafiador, porém separável)  
-- **Ruído de rótulo:** `flip_y ≈ 0.0`  
-- **Reprodutibilidade:** `random_state` fixo
+- **Features:** 2 
+- **Clusters por classe:** `[2, 1]`
+
+![Distribuição dos Dados](Ex10.png)
 
 ### Pipeline
-- **Split:** 80% treino / 20% teste (embaralhado, *random_state* fixo);  
-- **Scaler:** **MinMax [-1,1]** ajustado no treino e aplicado no teste;  
+- **Split:** 80% treino / 20% teste;  
+- **Scaler:** **MinMax [-1,1]**;  
 - **MLP:**  
-  - Entrada: `input_dim = 2`;  
-  - Ocultas: `[16, 16]` com ativação **tanh**;  
+  - Entrada: `input_dim = 2`;    
   - Saída: `output_dim = 2` (**softmax**);  
-  - *Loss:* **cross-entropy** categórica (one-hot);  
-  - *Optimizer:* **Gradient Descent**;  
-  - *Batch size:* 64;  
+  - *Loss:* **cross-entropy**;  
+  - *Optimizer:* **Gradient Descent**;   
   - *Épocas:* 500.
 
-### Visualização
-- **Dados Gerados:** dispersão 2D com classes bem definidas, porém não linearmente separáveis por uma única linha.  
-- **Histórico:** gráfico da *loss* ao longo das épocas, evidenciando convergência suave.  
-
 ### Resultados
-- **Train Loss:** ~0.23  
-- **Train Accuracy:** ~0.91  
-- **Test Loss:** ~0.27  
-- **Test Accuracy:** ~0.90  
+Foram realizados testes com **1 camada oculta de profundidade 1**, **1 camada oculta de profundidade 16** e **2 camadas ocultas de profundidade 16**.
 
-### Análise dos Resultados
-- A MLP treinada do zero foi capaz de separar classes não linearmente separáveis.  
-- O uso da ativação **tanh** nas camadas ocultas contribuiu para mapear regiões complexas do espaço de decisão.  
-- A saída com **softmax** + *cross-entropy* garantiu treinamento estável e convergência.  
-- A rede conseguiu generalizar bem, com desempenho semelhante em treino e teste.  
+- **Train Loss:** 0.4671, 0.4634, 0.2879  
+- **Train Accuracy:** 0.7750, 0.7738, 0.8538  
+- **Test Loss:** 0.4553, 0.4509, 0.2763
+- **Test Accuracy:** 0.8000, 0.8050, 0.8500
+
+![Loss por época para [1]](Ex111.png)
+![Accuracy por época par [1]](Ex112.png)
+![Loss por época para [16]](Ex121.png)
+![Accuracy por época par [16]](Ex122.png)
+![Loss por época para [16, 16]](Ex131.png)
+![Accuracy por época par [16, 16]](Ex132.png)
 
 ---
 
-## Exercício 3 — Classificação Multiclasse (3 Classes)
+## Exercício 3 / 4 — Classificação Multiclasse
 
-**Objetivo.** Reutilizar exatamente a mesma implementação da MLP, alterando apenas parâmetros de saída e da geração de dados, para classificar um problema **multiclasse com 3 classes** e 4 *features*.
+**Objetivo.** Treinar uma MLP em um conjunto de dados com 3 classes distintas, clusters assimétricos e 4 features.
 
 ### Especificação dos Dados
 - **Amostras:** 1500  
 - **Classes:** 3  
 - **Features:** 4  
-- **Clusters por classe:** `[2, 3, 4]` (obtidos separadamente e combinados)  
-- **Informativas:** `n_informative = 4`  
-- **Redundantes:** `n_redundant = 0`  
-- **Separabilidade:** moderada, com sobreposição entre alguns clusters.  
-- **Split:** 80/20 treino/teste  
+- **Clusters por classe:** `[2, 3, 4]`  
 
 ### Pipeline
-- **Scaler:** **MinMax [-1,1]** em 4 *features*.  
+- **Scaler:** **MinMax [-1,1]**;  
 - **MLP:**  
   - Entrada: `input_dim = 4`;  
-  - Ocultas: `[16, 16]` com ativação **tanh**;  
-  - Saída: `output_dim = 3` (**softmax**);  
-  - *Loss:* cross-entropy categórica (one-hot);  
+  - Saída: `output_dim = 3`;  
+  - *Loss:* cross-entropy categórica;  
   - *Épocas:* 500.  
 
 ### Resultados
-- **Train Accuracy:** ~0.85  
-- **Test Accuracy:** ~0.82  
-- **Histórico de Loss:** mostra convergência estável, sem overfitting evidente.  
+Foram realizados testes com **1 camada oculta de profundidade 16**, **2 camada oculta de profundidade 16** e **3 camadas ocultas de profundidade 16**.
 
-### Análise dos Resultados
-- O mesmo código da MLP binária foi reutilizado com sucesso, apenas ajustando `output_dim` e o *loss*.  
-- A rede conseguiu lidar com a maior complexidade, separando múltiplas classes em um espaço de 4 dimensões.  
-- Apesar da sobreposição entre clusters, o modelo atingiu boa generalização.  
-- O resultado evidencia a flexibilidade da arquitetura para diferentes problemas.  
+- **Train Loss:** 0.7644, 0.5351, 0.4725  
+- **Train Accuracy:** 0.6142, 0.7625, 0.7817  
+- **Test Loss:** 0.7889, 0.6355, 0.5803
+- **Test Accuracy:** 0.5933, 0.6767, 0.7200
 
----
+![Loss por época para [16]](Ex211.png)
+![Accuracy por época par [16]](Ex212.png)
+![Loss por época para [16, 16]](Ex221.png)
+![Accuracy por época par [16, 16]](Ex222.png)
+![Loss por época para [16, 16, 16]](Ex231.png)
+![Accuracy por época par [16, 16, 16]](Ex232.png) 
