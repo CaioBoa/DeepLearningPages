@@ -442,12 +442,9 @@ def plot_classification_data(X: np.ndarray, y: np.ndarray, title: str = "Synthet
 
 ![Distribuição dos Dados](Ex10.png)
 
-### Pipeline
-- **Split:** 80% treino / 20% teste;  
-- **Scaler:** **MinMax [-1,1]**;  
-- **MLP:**  
+### Parâmetros
   - Entrada: `input_dim = 2`;   
-  - Saída: `output_dim = 2` (**softmax**);     
+  - Saída: `output_dim = 2`;     
   - Épocas: 500;
 
 ### Resultados
@@ -477,9 +474,7 @@ Foram realizados testes com **1 camada oculta de profundidade 1**, **1 camada oc
 - **Features:** 4  
 - **Clusters por classe:** `[2, 3, 4]`  
 
-### Pipeline
-- **Scaler:** **MinMax [-1,1]**;  
-- **MLP:**  
+### Parâmetros 
   - Entrada: `input_dim = 4`;  
   - Saída: `output_dim = 3`;  
   - Épocas: 500;  
