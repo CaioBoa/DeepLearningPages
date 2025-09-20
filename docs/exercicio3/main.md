@@ -446,11 +446,9 @@ def plot_classification_data(X: np.ndarray, y: np.ndarray, title: str = "Synthet
 - **Split:** 80% treino / 20% teste;  
 - **Scaler:** **MinMax [-1,1]**;  
 - **MLP:**  
-  - Entrada: `input_dim = 2`;    
-  - Saída: `output_dim = 2` (**softmax**);  
-  - *Loss:* **cross-entropy**;  
-  - *Optimizer:* **Gradient Descent**;   
-  - *Épocas:* 500.
+  - Entrada: `input_dim = 2`;   
+  - Saída: `output_dim = 2` (**softmax**);     
+  - Épocas: 500;
 
 ### Resultados
 Foram realizados testes com **1 camada oculta de profundidade 1**, **1 camada oculta de profundidade 16** e **2 camadas ocultas de profundidade 16**.
@@ -484,8 +482,7 @@ Foram realizados testes com **1 camada oculta de profundidade 1**, **1 camada oc
 - **MLP:**  
   - Entrada: `input_dim = 4`;  
   - Saída: `output_dim = 3`;  
-  - *Loss:* cross-entropy categórica;  
-  - *Épocas:* 500.  
+  - Épocas: 500;  
 
 ### Resultados
 Foram realizados testes com **1 camada oculta de profundidade 16**, **2 camada oculta de profundidade 16** e **3 camadas ocultas de profundidade 16**.
