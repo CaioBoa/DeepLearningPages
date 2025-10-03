@@ -138,4 +138,4 @@ nav:
     - Exercicio 2: ./exercicio2/main.md
     - Exercicio 3: ./exercicio3/main.md
   - Projetos:
-    - "Classification": classification/model.ipynb
+    - "Classification": ./classification/model.ipynb
