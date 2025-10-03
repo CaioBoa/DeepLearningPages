@@ -10,19 +10,6 @@ mkdocs-git-committers-plugin-2
 mkdocs-git-revision-date-localized-plugin
 mkdocs-render-swagger-plugin
 
-mkdocs
-mkdocs-material
-mkdocs-jupyter
-mkdocs-git-revision-date-localized-plugin
-mkdocs-git-committers-plugin-2
-mkdocs-git-authors-plugin
-mkdocs-minify-plugin
-mkdocs-glightbox
-mkdocs-badges
-mkdocs-render-swagger-plugin
-mkdocs-termynal
-markdown-exec
-
 termynal
 matplotlib
 numpy

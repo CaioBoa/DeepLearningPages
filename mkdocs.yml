@@ -110,7 +110,7 @@ plugins:
       enable_creation_date: true
   - git-authors
   - git-committers:
-      repository: caioob/caioob.github.com
+      repository: CaioBoa/DeepLearningPages
       branch: main
   - search
   - badges
@@ -123,6 +123,9 @@ plugins:
       prompt_literal_start:
         - "$"
         - ">"
+  - mkdocs-jupyter:
+      execute: false          # usa as saídas já salvas no .ipynb
+      include_source: true    # (opcional) mostra o código das células
 
 extra_javascript:
   - https://unpkg.com/mathjax/es5/tex-mml-chtml.js
